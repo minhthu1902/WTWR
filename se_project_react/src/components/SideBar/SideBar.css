@@ -23,20 +23,24 @@
   text-align: center;
 }
 
-.sidebar__edit-button {
+.sidebar__profile-action {
   background: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px 16px;
+  border: none;
+  padding: 0;
   font-family: "Cabinet Grotesk";
-  font-size: 16px;
-  color: #333;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 120px;
+  transition: opacity 0.2s ease;
+  margin-bottom: 8px;
+  text-align: left;
 }
 
-.sidebar__edit-button:hover {
-  border-color: #333;
-  background-color: #f5f5f5;
+.sidebar__profile-action:hover {
+  opacity: 0.6;
+}
+
+.sidebar__profile-action_logout {
+  margin-bottom: 0;
 }

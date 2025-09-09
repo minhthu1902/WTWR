@@ -32,12 +32,10 @@
 .clothes__section-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  flex-direction: row;
+  grid-auto-rows: minmax(328px, auto);
   margin: 0;
   padding-left: 116px;
   list-style-type: none;
-  gap: 21px;
+  gap: 20px;
   position: relative;
-  object-fit: cover;
 }
