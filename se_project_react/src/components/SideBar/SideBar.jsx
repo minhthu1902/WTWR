@@ -3,7 +3,7 @@ import avatar from "../../assets/avatar.png";
 import { useUser } from "../../utils/contexts/UserContext.jsx";
 import "./SideBar.css";
 function SideBar() {
-  const { user } = useUser();
+  const { user, handleOpenEditProfileModal } = useUser();
   
   return (
     <div className="sidebar">
@@ -13,6 +13,13 @@ function SideBar() {
         className="sidebar__avatar" 
       />
       <h2 className="sidebar__username">{user?.name || "User"}</h2>
+      <button
+        className="sidebar__edit-button"
+        type="button"
+        onClick={handleOpenEditProfileModal}
+      >
+        Edit profile
+      </button>
     </div>
   );
 }

@@ -9,6 +9,11 @@ This repository contains both the frontend and backend components of the WTWR ap
 - **Frontend** (`se_project_react/`): React application with user authentication and clothing management
 - **Backend** (`se_project_express/`): Express.js API server with MongoDB database
 
+## Repository Links
+
+- **Frontend Repository**: [https://github.com/minhthu1902/WTWR/tree/main/se_project_react](https://github.com/minhthu1902/WTWR/tree/main/se_project_react)
+- **Backend Repository**: [https://github.com/minhthu1902/WTWR/tree/main/se_project_express](https://github.com/minhthu1902/WTWR/tree/main/se_project_express)
+
 ## Features
 
 ### Frontend Features

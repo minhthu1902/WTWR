@@ -32,7 +32,7 @@ const authenticatedRequest = async (url, options = {}) => {
     return await makeRequest();
   } catch (error) {
     // If it's a 401 error, try to refresh the token
-    if (error.includes("401")) {
+    if (error.status === 401) {
       try {
         const refreshResponse = await refreshToken();
         if (refreshResponse.token) {

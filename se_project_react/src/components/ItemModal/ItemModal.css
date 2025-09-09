@@ -65,7 +65,7 @@
 .modal__delete {
   display: flex;
   flex-direction: column;
-  margin-right: 20;
+  margin-right: 20px;
   width: auto;
   height: auto;
   justify-content: center;

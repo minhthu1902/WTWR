@@ -304,6 +304,8 @@ function App() {
         handleLogin,
         handleRegister,
         handleLogout,
+        handleUpdateProfile,
+        handleOpenEditProfileModal,
       }}
     >
       <ModalContext.Provider
@@ -389,6 +391,11 @@ function App() {
             onRegister={handleRegister}
             onLogin={handleLogin}
             onSwitchToLogin={handleSwitchToLogin}
+          />
+          <EditProfileModal
+            isOpen={isEditProfileModalOpen}
+            onClose={handleCloseEditProfileModal}
+            onUpdateProfile={handleUpdateProfile}
           />
           <Footer />
         </div>
