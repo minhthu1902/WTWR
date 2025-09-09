@@ -6,7 +6,7 @@ import ItemCard from "../ItemCard/ItemCard.jsx";
 import CurrentTemperatureUnitContext from "../../utils/contexts/CurrentTemperatureUnitContext.jsx";
 
 //rendering and define type of weather data and clothing items
-function Main({ weatherData, handleCardClick, clothingItems }) {
+function Main({ weatherData, handleCardClick, clothingItems, handleCardLike }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   return (
     <main className="main">
@@ -27,6 +27,7 @@ function Main({ weatherData, handleCardClick, clothingItems }) {
                   key={item._id} // Ensure `item.id` is a unique identifier
                   item={item}
                   onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
                 />
               );
             })}

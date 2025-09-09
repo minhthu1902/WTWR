@@ -1,14 +1,16 @@
 import React from "react";
 import "./ClothesSection.css";
 import ItemCard from "../ItemCard/ItemCard";
-// import { defaultClothingItems } from "../../utils/constants";
+import { useUser } from "../../utils/contexts/UserContext.jsx";
 
 function ClothesSection({
   // onCardClick,
   clothingItems,
   handleAddClick,
   handleCardClick,
+  handleCardLike,
 }) {
+  const { user } = useUser();
   return (
     <div className="clothes__section">
       <div className="clothes__section-caption">
@@ -24,17 +26,18 @@ function ClothesSection({
       </div>
       <ul className="clothes__section-list">
         {clothingItems &&
-          clothingItems.map((item) => {
-            return (
-              <ItemCard
-                key={item._id}
-                item={item}
-                // TODO - pass as prop
-                onCardClick={handleCardClick}
-                handleCardClick={handleCardClick}
-              />
-            );
-          })}
+          clothingItems
+            .filter((item) => item.owner === user?._id)
+            .map((item) => {
+              return (
+                <ItemCard
+                  key={item._id}
+                  item={item}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                />
+              );
+            })}
       </ul>
     </div>
   );

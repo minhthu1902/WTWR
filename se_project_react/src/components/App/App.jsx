@@ -12,6 +12,7 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import DeleteConfirmModal from "../DeleteConfirmModal/DeleteConfirmModal";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {
   getItems,
@@ -21,6 +22,9 @@ import {
   signin,
   checkToken,
   refreshToken,
+  updateUser,
+  addCardLike,
+  removeCardLike,
 } from "../../utils/Api.js";
 import CurrentTemperatureUnitContext from "../../utils/contexts/CurrentTemperatureUnitContext.jsx";
 import UserContext from "../../utils/contexts/UserContext.jsx";
@@ -47,6 +51,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const handleCardClick = (card) => {
@@ -98,6 +103,32 @@ function App() {
       })
       .catch((error) => {
         console.error("Failed to delete item:", error);
+        // If it's an auth error, log out the user
+        if (error.includes("401") || error.includes("403")) {
+          handleLogout();
+        }
+      });
+  };
+
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    
+    // Only allow liking if user is logged in
+    if (!token || !user) {
+      console.log("User must be logged in to like items");
+      return;
+    }
+
+    const likeRequest = isLiked ? removeCardLike(id) : addCardLike(id);
+    
+    likeRequest
+      .then((updatedCard) => {
+        setClothingItems((cards) =>
+          cards.map((item) => (item._id === id ? updatedCard : item))
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to update like:", error);
         // If it's an auth error, log out the user
         if (error.includes("401") || error.includes("403")) {
           handleLogout();
@@ -172,6 +203,25 @@ function App() {
     setIsRegisterModalOpen(false);
   };
 
+  const handleOpenEditProfileModal = () => {
+    setIsEditProfileModalOpen(true);
+  };
+
+  const handleCloseEditProfileModal = () => {
+    setIsEditProfileModalOpen(false);
+  };
+
+  const handleUpdateProfile = async ({ name, avatar }) => {
+    try {
+      const updatedUser = await updateUser({ name, avatar });
+      setUser(updatedUser);
+      return updatedUser;
+    } catch (error) {
+      console.error("Profile update failed:", error);
+      throw error;
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     setUser(null);
@@ -232,25 +282,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // getItems call to handle authorization errors Only fetch items if user is authenticated. 
-    if (user) {
-      getItems()
-        .then((data) => {
-          console.log(data);
-          setClothingItems(data);
-        })
-        .catch((error) => {
-          console.error("Failed to fetch items:", error);
-          // If it's an auth error, log out the user
-          if (error.includes("401") || error.includes("403")) {
-            handleLogout();
-          }
-        });
-    } else {
-      // Clear items when user is not authenticated
-      setClothingItems([]);
-    }
-  }, [user]);
+    // Fetch items on page load for all users (logged in or not)
+    getItems()
+      .then((data) => {
+        console.log(data);
+        setClothingItems(data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch items:", error);
+        // If it's an auth error and user is logged in, log out the user
+        if ((error.includes("401") || error.includes("403")) && user) {
+          handleLogout();
+        }
+      });
+  }, []); // Remove user dependency - fetch items once on mount
 
   return (
     <UserContext.Provider
@@ -290,6 +335,7 @@ function App() {
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
                     handleDeleteClick={handleDeleteClick}
+                    handleCardLike={handleCardLike}
                   />
                 }
               />
@@ -302,6 +348,7 @@ function App() {
                       clothingItems={clothingItems}
                       handleDeleteClick={handleDeleteClick}
                       handleAddClick={handleAddClick}
+                      handleCardLike={handleCardLike}
                     />
                   </ProtectedRoute>
                 }

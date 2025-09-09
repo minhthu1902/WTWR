@@ -14,20 +14,51 @@
   padding: 0;
 }
 
-.card__name {
-  max-width: 73px;
-  max-height: 24px;
+.card__header {
   position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.card__name {
+  max-width: 200px;
   margin: 0;
   background-color: white;
   font-family: "Cabinet Grotesk";
-  justify-content: center;
   font-size: 16px;
   font-weight: 100;
   line-height: 20px;
-  top: 15px;
-  gap: 0;
   opacity: 80%;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.card__like-button {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  transition: color 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card__like-button:hover {
+  color: #ff6b6b;
+}
+
+.card__like-button_active {
+  color: #ff6b6b;
 }
 .card__image {
   max-width: 325px;

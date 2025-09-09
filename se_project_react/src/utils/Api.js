@@ -115,6 +115,25 @@ function refreshToken() {
   }).then(checkResponse);
 }
 
+function updateUser({ name, avatar }) {
+  return authenticatedRequest(`${baseUrl}/users/me`, {
+    method: "PATCH",
+    body: JSON.stringify({ name, avatar }),
+  });
+}
+
+function addCardLike(id) {
+  return authenticatedRequest(`${baseUrl}/items/${id}/likes`, {
+    method: "PUT",
+  });
+}
+
+function removeCardLike(id) {
+  return authenticatedRequest(`${baseUrl}/items/${id}/likes`, {
+    method: "DELETE",
+  });
+}
+
 export {
   getItems,
   addItem,
@@ -123,6 +142,9 @@ export {
   signin,
   checkToken,
   refreshToken,
+  updateUser,
+  addCardLike,
+  removeCardLike,
 };
 // function checkResponse(res) {
 //   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
